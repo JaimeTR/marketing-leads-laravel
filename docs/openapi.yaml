@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: Marketing Leads Next API
+  version: 1.0.0
+paths:
+  /api/leads:
+    get:
+      summary: List leads
+      parameters:
+        - in: query
+          name: campaign
+          schema:
+            type: string
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Paginated lead list
+    post:
+      summary: Create lead
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeadInput"
+      responses:
+        "201":
+          description: Lead created
+        "422":
+          description: Validation error
+  /api/leads/dashboard:
+    get:
+      summary: AI dashboard insights
+      responses:
+        "200":
+          description: Metrics and AI insights
+components:
+  schemas:
+    LeadInput:
+      type: object
+      required:
+        - name
+        - email
+        - campaign
+      properties:
+        name:
+          type: string
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          maxLength: 120
+        company:
+          type: string
+          nullable: true
+          maxLength: 120
+        phone:
+          type: string
+          nullable: true
+          maxLength: 30
+        campaign:
+          type: string
+          maxLength: 100
